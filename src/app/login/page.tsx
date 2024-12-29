@@ -8,6 +8,19 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const data = {
+      email: formData.get("email"),
+      password: formData.get("password") 
+    };
+
+    console.log(data)
+
+  }
+
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -16,7 +29,7 @@ export default function Login() {
     <main className="flex items-center justify-center min-h-screen">
       <div className="relative flex flex-col m-6 space-y-8 bg-gray-cf_gray1 rounded-2xl md:flex-row md:space-y-0 md:space-x-8">
         <div className="flex flex-col justify-center p-8 md:p-14 md:w-1/2">
-          <form>
+          <form onSubmit={handleLogin}>
             <h2 className="mb-3 text-3xl font-bold text-blue-cf_blue">Bem-Vindo</h2>
             <p className="font-light text-gray-400 mb-8">
               Bem-vindo de volta!, Por favor insira seus dados.
