@@ -21,7 +21,7 @@ const handler = NextAuth({
           return {
             id: "1",
             name: "User",
-            email: "@gmail.com",
+            email: "User@gmail.com",
           }
         }
         return null;

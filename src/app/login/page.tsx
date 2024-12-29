@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,16 +13,25 @@ export default function Login() {
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-
+  
     const data = {
       email: formData.get("email"),
-      password: formData.get("password") 
+      password: formData.get("password"),
     };
-
-    console.log(data)
-
+  
+    const result = await signIn("credentials", {
+      ...data,
+      /*callbackUrl: "/dashboard",*/
+      redirect: false,
+    });
+  
+    if (result?.error) {
+      console.error(result.error);
+    } else if (result?.ok) {
+      window.location.href = "/dashboard";
+    }
   }
-
+  
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
