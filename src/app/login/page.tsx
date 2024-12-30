@@ -4,8 +4,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { z } from 'zod';
 
+const loginSchema = z.object({
+  email: z.string().email("Insira um endereço de e-mail válido."),
+  password: z.string()
+    .min(8, "A senha deve conter pelo menos 8 caracteres.")
+    .refine(
+      (password) => {
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /\d/.test(password);
+
+        return hasUppercase && hasLowercase && hasNumber;
+      },
+      "A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número."
+    ),
+});
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,31 +30,49 @@ export default function Login() {
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-  
+
     const data = {
       email: formData.get("email"),
       password: formData.get("password"),
     };
-  
-    const result = await signIn("credentials", {
-      ...data,
-      /*callbackUrl: "/dashboard",*/
-      redirect: false,
-    });
-  
-    if (result?.error) {
-      console.error(result.error);
-    } else if (result?.ok) {
-      window.location.href = "/dashboard";
+
+    const validationResult = loginSchema.safeParse(data);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors;
+      errors.forEach((err) => {
+        toast.error(err.message);
+      });
+      return;
+    }
+
+    try {
+      const res = await signIn("credentials", {
+        ...data,
+        callbackUrl: "/dashboard",
+        redirect: false,
+      });
+
+      if (res?.error) {
+        toast.error("Credenciais inválidas.");
+      } else {
+        toast.success("Autenticação bem-sucedida.");
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 2500);
+      }
+    } catch (error) {
+      toast.error("Erro de Autentificação. Tente novamente.");
     }
   }
-  
+
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
   return (
     <main className="flex items-center justify-center min-h-screen">
+      <ToastContainer position="top-right" />
       <div className="relative flex flex-col m-6 space-y-8 bg-gray-cf_gray1 rounded-2xl md:flex-row md:space-y-0 md:space-x-8">
         <div className="flex flex-col justify-center p-8 md:p-14 md:w-1/2">
           <form onSubmit={handleLogin}>
@@ -75,7 +110,7 @@ export default function Login() {
                   className="w-full p-2 border-4 border-blue-cf_blue rounded-md placeholder:font-light
                    placeholder:text-gray-500 focus:border-4 focus:border-blue-cf_blue focus:outline-none"
                   name="password"
-                   placeholder="Digite sua Senha"
+                  placeholder="Digite sua Senha"
                 />
                 <button
                   type="button"
