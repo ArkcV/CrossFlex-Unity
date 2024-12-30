@@ -58,6 +58,7 @@ export default function Login() {
                  placeholder:text-gray-500 focus:border-4 focus:border-blue-cf_blue focus:outline-none"
                 name="email"
                 autoComplete="email"
+                placeholder="Digite seu Email"
               />
             </div>
 
@@ -74,6 +75,7 @@ export default function Login() {
                   className="w-full p-2 border-4 border-blue-cf_blue rounded-md placeholder:font-light
                    placeholder:text-gray-500 focus:border-4 focus:border-blue-cf_blue focus:outline-none"
                   name="password"
+                   placeholder="Digite sua Senha"
                 />
                 <button
                   type="button"
