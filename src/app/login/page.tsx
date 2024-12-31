@@ -56,6 +56,7 @@ export default function Login() {
     try {
       const res = await signIn("credentials", {
         ...data,
+        /*callbackUrl:"/dashboard",*/
         redirect: false,
       });
 
