@@ -31,8 +31,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
+    // Retrieve saved email and password from localStorage
     const savedEmail = localStorage.getItem("rememberedEmail");
     const savedPassword = localStorage.getItem("rememberedPassword");
+
     if (savedEmail && savedPassword) {
       setEmail(savedEmail);
       setPassword(savedPassword);
@@ -41,11 +43,15 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
-    if (!rememberMe) {
+    // Update localStorage when "remember me" is toggled
+    if (rememberMe) {
+      localStorage.setItem("rememberedEmail", email);
+      localStorage.setItem("rememberedPassword", password);
+    } else {
       localStorage.removeItem("rememberedEmail");
       localStorage.removeItem("rememberedPassword");
     }
-  }, [rememberMe]);
+  }, [rememberMe, email, password]);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -69,11 +75,6 @@ export default function Login() {
       return;
     }
 
-    if (rememberMe) {
-      localStorage.setItem("rememberedEmail", data.email);
-      localStorage.setItem("rememberedPassword", data.password);
-    }
-
     try {
       const res = await signIn("credentials", {
         ...data,
@@ -94,7 +95,6 @@ export default function Login() {
       setTimeout(() => setLoading(false), 1000);
     }
   }
-
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
