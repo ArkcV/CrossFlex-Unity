@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { z } from 'zod';
-
 
 const loginSchema = z.object({
   email: z.string().email("Insira um endereço de e-mail válido."),
@@ -18,7 +17,6 @@ const loginSchema = z.object({
         const hasUppercase = /[A-Z]/.test(password);
         const hasLowercase = /[a-z]/.test(password);
         const hasNumber = /\d/.test(password);
-
         return hasUppercase && hasLowercase && hasNumber;
       },
       "A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número."
@@ -26,40 +24,62 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
-
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedPassword = localStorage.getItem("rememberedPassword");
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (!rememberMe) {
+      localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("rememberedPassword");
+    }
+  }, [rememberMe]);
+  
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
-
     e.preventDefault();
     setLoading(true);
-
+  
     const formData = new FormData(e.currentTarget);
-
     const data = {
-      email: formData.get("email"),
-      password: formData.get("password"),
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      remember: rememberMe,
     };
-
+  
     const validationResult = loginSchema.safeParse(data);
-
+  
     if (!validationResult.success) {
       const errors = validationResult.error.errors;
       errors.forEach((err) => {
         toast.error(err.message);
-      })
+      });
       setTimeout(() => setLoading(false), 1000);
       return;
     }
-
+  
+    if (rememberMe) {
+      localStorage.setItem("rememberedEmail", data.email);
+      localStorage.setItem("rememberedPassword", data.password);
+    }
+  
     try {
       const res = await signIn("credentials", {
         ...data,
-        /*callbackUrl:"/dashboard",*/
         redirect: false,
       });
-
+  
       if (res?.error) {
         toast.error("Credenciais inválidas.");
       } else {
@@ -70,10 +90,11 @@ export default function Login() {
       }
     } catch (error) {
       toast.error("Erro de Autentificação. Tente novamente.");
-    }finally {
-      setTimeout(() => setLoading(false), 1000)
-   }
+    } finally {
+      setTimeout(() => setLoading(false), 1000);
+    }
   }
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -104,6 +125,8 @@ export default function Login() {
                 autoComplete="email"
                 placeholder="Digite seu Email"
                 disabled={loading}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -122,6 +145,8 @@ export default function Login() {
                   name="password"
                   placeholder="Digite sua Senha"
                   disabled={loading}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="button"
@@ -140,8 +165,10 @@ export default function Login() {
                   type="checkbox"
                   name="remember"
                   className="mr-2 md:mt-2"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                 />
-                <label htmlFor="remember" className="text-xs md:text-base mt-2 ">
+                <label htmlFor="remember" className="text-xs md:text-base mt-2">
                   Lembrar
                 </label>
               </div>
@@ -159,13 +186,13 @@ export default function Login() {
              disabled:bg-blue-cf_blue disabled:cursor-not-allowed"
               type="submit"
             >
-             <div className="flex justify-center items-center space-x-2">
-            {loading ? (
-              <FaSpinner className="animate-spin text-white-cf_white" size={24} />
-            ) : (
-              "Entrar"
-            )}
-          </div>
+              <div className="flex justify-center items-center space-x-2">
+                {loading ? (
+                  <FaSpinner className="animate-spin text-white-cf_white" size={24} />
+                ) : (
+                  "Entrar"
+                )}
+              </div>
             </button>
           </form>
         </div>
