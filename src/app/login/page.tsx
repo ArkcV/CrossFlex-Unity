@@ -5,8 +5,9 @@ import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import { z } from 'zod';
+
 
 const loginSchema = z.object({
   email: z.string().email("Insira um endereço de e-mail válido."),
@@ -25,10 +26,15 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
+
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+
     e.preventDefault();
+    setLoading(true);
+
     const formData = new FormData(e.currentTarget);
 
     const data = {
@@ -42,14 +48,14 @@ export default function Login() {
       const errors = validationResult.error.errors;
       errors.forEach((err) => {
         toast.error(err.message);
-      });
+      })
+      setLoading(false);
       return;
     }
 
     try {
       const res = await signIn("credentials", {
         ...data,
-        callbackUrl: "/dashboard",
         redirect: false,
       });
 
@@ -63,7 +69,9 @@ export default function Login() {
       }
     } catch (error) {
       toast.error("Erro de Autentificação. Tente novamente.");
-    }
+    }finally {
+    setLoading(false);
+  }
   }
 
   const togglePasswordVisibility = () => {
@@ -94,6 +102,7 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 placeholder="Digite seu Email"
+                disabled={loading}
               />
             </div>
 
@@ -111,11 +120,13 @@ export default function Login() {
                    placeholder:text-gray-500 focus:border-4 focus:border-blue-cf_blue focus:outline-none"
                   name="password"
                   placeholder="Digite sua Senha"
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
                   className="absolute right-3 top-4 text-blue-cf_blue"
+                  disabled={loading}
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
@@ -143,13 +154,17 @@ export default function Login() {
             </div>
 
             <button
-              className="w-full bg-blue-cf_blue text-white-100 text-xl font-semibold p-4 rounded-2xl mb-6 hover:bg-blue-950 
+              className="w-full bg-blue-cf_blue text-white-cf_white text-xl font-semibold p-4 rounded-2xl mb-6 hover:bg-blue-950 
              disabled:bg-blue-cf_blue disabled:cursor-not-allowed"
               type="submit"
             >
-              <div className="flex justify-center items-center space-x-2 text-white-cf_white">
-                Entrar
-              </div>
+             <div className="flex justify-center items-center space-x-2">
+            {loading ? (
+              <FaSpinner className="animate-spin text-white-cf_white" size={24} />
+            ) : (
+              "Entrar"
+            )}
+          </div>
             </button>
           </form>
         </div>
