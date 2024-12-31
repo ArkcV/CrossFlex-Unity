@@ -121,7 +121,7 @@ export default function Login() {
                 autoComplete="email"
                 placeholder="Digite seu Email"
                 disabled={loading}
-                value={email}
+            
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -141,7 +141,7 @@ export default function Login() {
                   name="password"
                   placeholder="Digite sua Senha"
                   disabled={loading}
-                  value={password}
+             
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
@@ -201,6 +201,7 @@ export default function Login() {
               width={500}
               height={100}
               priority
+           
             />
           </div>
         </div>
