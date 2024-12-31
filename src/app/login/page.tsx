@@ -49,7 +49,7 @@ export default function Login() {
       errors.forEach((err) => {
         toast.error(err.message);
       })
-      setLoading(false);
+      setTimeout(() => setLoading(false), 1000);
       return;
     }
 
@@ -70,8 +70,8 @@ export default function Login() {
     } catch (error) {
       toast.error("Erro de Autentificação. Tente novamente.");
     }finally {
-    setLoading(false);
-  }
+      setTimeout(() => setLoading(false), 1000)
+   }
   }
 
   const togglePasswordVisibility = () => {
