@@ -39,27 +39,27 @@ export default function Login() {
       setRememberMe(true);
     }
   }, []);
-  
+
   useEffect(() => {
     if (!rememberMe) {
       localStorage.removeItem("rememberedEmail");
       localStorage.removeItem("rememberedPassword");
     }
   }, [rememberMe]);
-  
+
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-  
+
     const formData = new FormData(e.currentTarget);
     const data = {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
       remember: rememberMe,
     };
-  
+
     const validationResult = loginSchema.safeParse(data);
-  
+
     if (!validationResult.success) {
       const errors = validationResult.error.errors;
       errors.forEach((err) => {
@@ -68,18 +68,18 @@ export default function Login() {
       setTimeout(() => setLoading(false), 1000);
       return;
     }
-  
+
     if (rememberMe) {
       localStorage.setItem("rememberedEmail", data.email);
       localStorage.setItem("rememberedPassword", data.password);
     }
-  
+
     try {
       const res = await signIn("credentials", {
         ...data,
         redirect: false,
       });
-  
+
       if (res?.error) {
         toast.error("Credenciais inválidas.");
       } else {
@@ -94,7 +94,7 @@ export default function Login() {
       setTimeout(() => setLoading(false), 1000);
     }
   }
-  
+
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
