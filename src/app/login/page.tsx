@@ -31,10 +31,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    // Retrieve saved email and password from localStorage
     const savedEmail = localStorage.getItem("rememberedEmail");
     const savedPassword = localStorage.getItem("rememberedPassword");
-
     if (savedEmail && savedPassword) {
       setEmail(savedEmail);
       setPassword(savedPassword);
@@ -43,7 +41,6 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
-    // Update localStorage when "remember me" is toggled
     if (rememberMe) {
       localStorage.setItem("rememberedEmail", email);
       localStorage.setItem("rememberedPassword", password);
@@ -65,7 +62,6 @@ export default function Login() {
     };
 
     const validationResult = loginSchema.safeParse(data);
-
     if (!validationResult.success) {
       const errors = validationResult.error.errors;
       errors.forEach((err) => {
