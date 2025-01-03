@@ -14,15 +14,15 @@ import { CgGym } from "react-icons/cg";
 const menuItems = [
   {
     list: [
-      { title: "Dashboard", path: "/dashboard", icon: <RxDashboard /> },
-      { title: "Profile", path: "/dashboard/profile", icon: <BsHouse /> },
-      { title: "Registration", path: "/dashboard/registration", icon: <FaRegPenToSquare /> },
-      { title: "Plan", path: "/dashboard/plan", icon: <LuFileCheck /> },
-      { title: "Payment", path: "/dashboard/payment", icon: <TfiWallet /> },
-      { title: "Members", path: "/dashboard/members", icon: <HiOutlineUsers /> },
-      { title: "Inventory", path: "/dashboard/inventory", icon: <MdOutlineInventory2 /> },
-      { title: "Coaches", path: "/dashboard/coaches", icon: <CgGym /> },
-      { title: "Help", path: "/dashboard/help", icon: <LuBookOpen /> },
+      { title: "Inicio", path: "/dashboard", icon: <RxDashboard /> },
+      { title: "Perfil", path: "/dashboard/profile", icon: <BsHouse /> },
+      { title: "Registrar", path: "/dashboard/registration", icon: <FaRegPenToSquare /> },
+      { title: "Planos", path: "/dashboard/plan", icon: <LuFileCheck /> },
+      { title: "Inscrição", path: "/dashboard/payment", icon: <TfiWallet /> },
+      { title: "Alunos", path: "/dashboard/members", icon: <HiOutlineUsers /> },
+      { title: "Inventário", path: "/dashboard/inventory", icon: <MdOutlineInventory2 /> },
+      { title: "Treinadores", path: "/dashboard/coaches", icon: <CgGym /> },
+      { title: "Ajuda", path: "/dashboard/help", icon: <LuBookOpen /> },
     ],
   },
 ];
