@@ -198,7 +198,7 @@ export default function Login() {
             <Image
               src="/crossflex-logo.png"
               alt="crossflex-logo"
-              width={500}
+              width={450}
               height={100}
               priority
             />
