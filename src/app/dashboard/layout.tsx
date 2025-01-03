@@ -3,18 +3,18 @@
 import Navbar from "../../components/NavBar"
 import Sidebar from "../../components/SideBar"
 
-const layout = ({children}:any) => {
+const Layout = ({ children }: any) => {
   return (
     <main>
-     <div>
-      <><Sidebar/></>
-     </div>
-     <div>
-       <Navbar/>
-       {children}
-     </div>
+      <div className="flex">
+        <Sidebar />
+        <div className="w-full ml-16 md:ml-56">
+          <Navbar />
+          {children}
+        </div>
+      </div>
     </main>
   )
 }
 
-export default layout
+export default Layout
