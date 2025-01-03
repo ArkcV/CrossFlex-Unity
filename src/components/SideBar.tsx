@@ -28,7 +28,7 @@ const menuItems = [
 ];
 
 
-export default async function Sidebar () {
+export default async function Sidebar() {
 
   const session = await getServerSession();
 
@@ -41,7 +41,7 @@ export default async function Sidebar () {
             alt="user-avatar"
             width={50}
             height={100}
-                      />
+          />
         </div>
         <span>{session?.user?.name}</span>
       </nav>
@@ -59,7 +59,7 @@ export default async function Sidebar () {
           </li>
         ))}
       </ul>
-      <LoginButton/>
+      <LoginButton />
     </main>
   );
 } 
