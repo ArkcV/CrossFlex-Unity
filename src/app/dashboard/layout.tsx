@@ -1,10 +1,12 @@
 "use client"
 
+import Sidebar from "../../components/SideBar"
+
 const layout = ({children}:any) => {
   return (
     <>
      <div>
-     <>SIDEBAR</>
+      <><Sidebar/></>
      </div>
      <div>
        NAVBAR
