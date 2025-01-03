@@ -39,7 +39,7 @@ export default async function Sidebar () {
           <Image
             src="/user-avatar.jpeg"
             alt="user-avatar"
-            width={75}
+            width={50}
             height={100}
                       />
         </div>
