@@ -1,15 +1,15 @@
-import { BsHouse } from "react-icons/bs";
-import { CgGym } from "react-icons/cg";
-import { FaRegPenToSquare } from "react-icons/fa6";
-import { HiOutlineUsers } from "react-icons/hi";
-import { LuBookOpen, LuFileCheck } from "react-icons/lu";
-import { MdOutlineInventory2 } from "react-icons/md";
-import { RxDashboard } from "react-icons/rx";
-import { TfiWallet } from "react-icons/tfi";
-import { getServerSession } from "next-auth"
+"use client";
 
 import Image from "next/image";
-import LoginButton from "./LogoutButton";
+import LogoutButton from "./LogoutButton";
+import { RxDashboard } from "react-icons/rx";
+import { BsHouse } from "react-icons/bs";
+import { FaRegPenToSquare } from "react-icons/fa6";
+import { LuFileCheck, LuBookOpen } from "react-icons/lu";
+import { TfiWallet } from "react-icons/tfi";
+import { HiOutlineUsers } from "react-icons/hi";
+import { MdOutlineInventory2 } from "react-icons/md";
+import { CgGym } from "react-icons/cg";
 
 const menuItems = [
   {
@@ -27,11 +27,7 @@ const menuItems = [
   },
 ];
 
-
-export default async function Sidebar() {
-
-  const session = await getServerSession();
-
+export default function Sidebar({ session }:any) {
   return (
     <main>
       <nav>
@@ -59,7 +55,7 @@ export default async function Sidebar() {
           </li>
         ))}
       </ul>
-      <LoginButton />
+      <LogoutButton />
     </main>
   );
-} 
+}
