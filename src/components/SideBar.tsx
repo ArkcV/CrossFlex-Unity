@@ -9,6 +9,7 @@ import { TfiWallet } from "react-icons/tfi";
 import { getServerSession } from "next-auth"
 
 import Image from "next/image";
+import LoginButton from "./LogoutButton";
 
 const menuItems = [
   {
@@ -58,6 +59,7 @@ export default async function Sidebar () {
           </li>
         ))}
       </ul>
+      <LoginButton/>
     </main>
   );
 } 
