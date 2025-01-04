@@ -1,7 +1,4 @@
-"use client";
 
-import Image from "next/image";
-import LogoutButton from "./LogoutButton";
 import { RxDashboard } from "react-icons/rx";
 import { BsHouse } from "react-icons/bs";
 import { FaRegPenToSquare } from "react-icons/fa6";
@@ -10,6 +7,13 @@ import { TfiWallet } from "react-icons/tfi";
 import { HiOutlineUsers } from "react-icons/hi";
 import { MdOutlineInventory2 } from "react-icons/md";
 import { CgGym } from "react-icons/cg";
+import LogoutButton from "./LogoutButton";
+import { Session } from "next-auth";
+
+
+interface SideBarProps {
+  session: Session | null;
+}
 
 const menuItems = [
   {
@@ -27,20 +31,21 @@ const menuItems = [
   },
 ];
 
-export default function Sidebar({ session }:any) {
+
+export default async function Sidebar({session}: SideBarProps) {
+
   return (
-    <main>
+    <>
       <nav>
-        <div>
-          <Image
-            src="/user-avatar.jpeg"
-            alt="user-avatar"
-            width={50}
-            height={100}
-          />
+      <div>
+      {session ? (
+        <div>{session.user?.name}
+          <div>{session.user?.email}</div>
         </div>
-        <span>{session?.user?.name}</span>
-      </nav>
+      ) : (
+        <div>Please log in</div>
+      )}
+    </div>
       <ul>
         {menuItems.map((cat, index) => (
           <li key={index}>
@@ -56,6 +61,7 @@ export default function Sidebar({ session }:any) {
         ))}
       </ul>
       <LogoutButton />
-    </main>
+      </nav>
+    </>
   );
 }

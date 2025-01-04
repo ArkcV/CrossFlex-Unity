@@ -1,15 +1,18 @@
-"use client"
 
 import Navbar from "../../components/NavBar"
 import Sidebar from "../../components/SideBar"
+import { getServerSession } from "next-auth";
 
-const Layout = ({ children }: any) => {
+export default async function Layout ({ children }: { children: React.ReactNode })  {
+
+  const session = await getServerSession();
+
   return (
     <main>
       <div className="flex">
-        <Sidebar />
+        <Sidebar session={session} />
         <div className="w-full ml-16 md:ml-56">
-          <Navbar />
+          <Navbar session={session} />
           {children}
         </div>
       </div>
@@ -17,4 +20,4 @@ const Layout = ({ children }: any) => {
   )
 }
 
-export default Layout
+

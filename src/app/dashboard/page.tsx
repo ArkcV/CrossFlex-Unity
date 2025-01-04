@@ -1,7 +1,9 @@
+
+
 import { getServerSession } from "next-auth"
 import { redirect } from "next/navigation";
 
-export default async function Page() {
+export default async function Dashboard() {
 
   const session = await getServerSession();
 
@@ -11,7 +13,7 @@ export default async function Page() {
   
    return(
     <>
-      <div>Dashboard {session?.user?.name}</div>
+      
     </>
    )
 }
