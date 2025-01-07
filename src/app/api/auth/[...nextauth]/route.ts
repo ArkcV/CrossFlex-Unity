@@ -17,30 +17,18 @@ const handler = NextAuth({
           return null;
         }
 
-        if (credentials.email === "User@gmail.com" && credentials.password === "123456Am") {
+        if (credentials.email === "garagemcross@gmail.com" && credentials.password === "123456Am") {
           return {
             id: "1",
-            name: "User",
-            email: "User@gmail.com",
+            name: "GaragemCross",
+            email: "garagemcross@gmail.com",
           };
         }
         return null;
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`, 
-      options: {
-        httpOnly: true, 
-        sameSite: "strict", 
-        path: "/",
-      },
-    },
-  },
+
 });
 
 export { handler as GET, handler as POST };
