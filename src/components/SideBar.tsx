@@ -5,12 +5,7 @@ import Link from "next/link";
 import { Session } from "next-auth";
 import { useState } from "react";
 import { RxDashboard } from "react-icons/rx";
-import { BsHouse } from "react-icons/bs";
-import { FaRegPenToSquare } from "react-icons/fa6";
-import { LuFileCheck, LuBookOpen } from "react-icons/lu";
-import { TfiWallet } from "react-icons/tfi";
-import { HiOutlineUsers } from "react-icons/hi";
-import { MdOutlineInventory2 } from "react-icons/md";
+import { BsBook, BsBox2, BsFileEarmarkCheck, BsHouse, BsPencilSquare, BsPeople, BsWallet2 } from "react-icons/bs";
 import { CgGym } from "react-icons/cg";
 import LogoutButton from "./LogoutButton";
 
@@ -23,18 +18,19 @@ const menuItems = [
     list: [
       { title: "Inicio", path: "/dashboard", icon: <RxDashboard /> },
       { title: "Perfil", path: "/dashboard/profile", icon: <BsHouse /> },
-      { title: "Registrar", path: "/dashboard/registration", icon: <FaRegPenToSquare /> },
-      { title: "Planos", path: "/dashboard/plan", icon: <LuFileCheck /> },
-      { title: "Inscrição", path: "/dashboard/payment", icon: <TfiWallet /> },
-      { title: "Alunos", path: "/dashboard/members", icon: <HiOutlineUsers /> },
-      { title: "Inventário", path: "/dashboard/inventory", icon: <MdOutlineInventory2 /> },
+      { title: "Registrar", path: "/dashboard/registration", icon: <BsPencilSquare /> },
+      { title: "Planos", path: "/dashboard/plan", icon: <BsFileEarmarkCheck /> },
+      { title: "Inscrição", path: "/dashboard/payment", icon: <BsWallet2 /> },
+      { title: "Alunos", path: "/dashboard/members", icon: <BsPeople /> },
+      { title: "Inventário", path: "/dashboard/inventory", icon: <BsBox2 /> },
       { title: "Treinadores", path: "/dashboard/coaches", icon: <CgGym /> },
-      { title: "Ajuda", path: "/dashboard/help", icon: <LuBookOpen /> },
+      { title: "Ajuda", path: "/dashboard/help", icon: <BsBook /> },
     ],
   },
 ];
 
 export default function Sidebar({ session }: SideBarProps) {
+
   const [activeLink, setActiveLink] = useState<string>("/dashboard");
 
   return (
@@ -69,8 +65,7 @@ export default function Sidebar({ session }: SideBarProps) {
                   key={item.path}
                   onClick={() => setActiveLink(item.path)}
                   className={`rounded-md py-2 text-white-cf_white hover:bg-white-cf_white hover:text-blue-cf_blue hover:font-bold 
-                  ${activeLink === item.path ? 'bg-white-cf_white text-blue-950 font-bold' : ''}`}
-                >
+                  ${activeLink === item.path ? 'bg-white-cf_white text-blue-950 font-bold' : ''}`}>
                   <Link href={item.path} className="flex items-center justify-center md:justify-start md:space-x-3">
                     <span className="md:ml-4 text-lg">{item.icon}</span>
                     <span className="hidden md:flex text-sm">{item.title}</span>
