@@ -64,8 +64,7 @@ export default function Sidebar({ session }: SideBarProps) {
                 <li
                   key={item.path}
                   onClick={() => setActiveLink(item.path)}
-                  className={`rounded-md py-2 text-white-cf_white hover:bg-white-cf_white hover:text-blue-cf_blue hover:font-bold 
-                  ${activeLink === item.path ? 'bg-white-cf_white text-blue-950 font-bold' : ''}`}>
+                  className={`rounded-md py-2 text-blue-cf_blue hover:bg-white-cf_white hover:text-blue-cf_blue hover:font-bold ${activeLink === item.path ? ' bg-white-cf_white font-bold ' : 'text-white-cf_white'}`}>
                   <Link href={item.path} className="flex items-center justify-center md:justify-start md:space-x-3">
                     <span className="md:ml-4 text-lg">{item.icon}</span>
                     <span className="hidden md:flex text-sm">{item.title}</span>
